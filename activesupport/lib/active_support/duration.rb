@@ -182,6 +182,7 @@ module ActiveSupport
       #
       def build(value)
         parts = {}
+
         remainder = value.to_f
 
         PARTS.each do |part|
@@ -194,7 +195,15 @@ module ActiveSupport
 
         parts[:seconds] = remainder
 
-        new(value, parts)
+        value_to_instantiate =
+          case value.class
+          when Integer
+            value
+          else
+            value_as_processed = value.to_f
+            (value_as_processed % 1 == 0) ? value_as_processed.to_i : value_as_processed
+          end
+        new(value_to_instantiate, parts)
       end
 
       private

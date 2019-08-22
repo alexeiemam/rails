@@ -661,6 +661,26 @@ class DurationTest < ActiveSupport::TestCase
     assert_equal 660, (d1 + 60).to_i
   end
 
+  def test_less_than_comparator_following_build
+    a_duration_from_string, a_duration_from_integer = durations_for_build_test
+    string_duration_smaller_than_integer_duration =
+      begin
+        a_duration_from_string < a_duration_from_integer
+      rescue ArgumentError => _e
+        "error raised"
+      end
+
+    assert_not string_duration_smaller_than_integer_duration == "error raised"
+    assert string_duration_smaller_than_integer_duration == false
+  end
+
+  def test_equality_following_build
+    a_duration_from_string, a_duration_from_integer = durations_for_build_test
+    string_duration_equals_integer_duration = a_duration_from_string == a_duration_from_integer
+
+    assert string_duration_equals_integer_duration == true
+  end
+
   private
     def eastern_time_zone
       if Gem.win_platform?
@@ -668,5 +688,17 @@ class DurationTest < ActiveSupport::TestCase
       else
         "America/New_York"
       end
+    end
+
+    def durations_for_build_test
+      the_duration_seconds = 23
+      [
+        build(the_duration_seconds.to_s),
+        build(the_duration_seconds)
+      ]
+    end
+
+    def build(it)
+      ActiveSupport::Duration.build(it)
     end
 end
