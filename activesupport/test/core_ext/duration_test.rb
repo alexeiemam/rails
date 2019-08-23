@@ -681,6 +681,13 @@ class DurationTest < ActiveSupport::TestCase
     assert string_duration_equals_integer_duration == true
   end
 
+  def test_string_built_duration_comparisons
+    small_duration_from_string = ActiveSupport::Duration.build("9")
+    large_duration_from_string = ActiveSupport::Duration.build("88888888888888888888888")
+
+    assert large_duration_from_string > small_duration_from_string
+  end
+
   private
     def eastern_time_zone
       if Gem.win_platform?
