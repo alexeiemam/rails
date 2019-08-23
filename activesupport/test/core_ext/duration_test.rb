@@ -689,15 +689,18 @@ class DurationTest < ActiveSupport::TestCase
   end
 
   def test_duration_values_of_build_durations
-    int_duration_from_string = ActiveSupport::Duration.build('15')
-    float_duration_from_string = ActiveSupport::Duration.build('100.38')
+    int_duration_from_string = ActiveSupport::Duration.build("15")
+    float_duration_from_string = ActiveSupport::Duration.build("100.38")
     int_duration_from_int = ActiveSupport::Duration.build(1)
     float_duration_from_float = ActiveSupport::Duration.build(99.5)
+
+    duration_from_rational = ActiveSupport::Duration.build(Rational(2, 3))
 
     assert float_duration_from_string.value.is_a?(Float)
     assert int_duration_from_string.value.is_a?(Integer)
     assert float_duration_from_float.value.is_a?(Float)
     assert int_duration_from_int.value.is_a?(Integer)
+    assert duration_from_rational.value.is_a?(Rational)
   end
 
   private

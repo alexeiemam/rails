@@ -197,7 +197,7 @@ module ActiveSupport
 
         value_to_instantiate =
           case
-          when value.is_a?(Integer)
+          when value.is_a?(::Numeric)
             value
           else
             value_as_processed = value.to_f
