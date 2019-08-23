@@ -688,12 +688,16 @@ class DurationTest < ActiveSupport::TestCase
     assert large_duration_from_string > small_duration_from_string
   end
 
-  def test_built_duration_values
+  def test_duration_values_of_build_durations
     int_duration_from_string = ActiveSupport::Duration.build('15')
     float_duration_from_string = ActiveSupport::Duration.build('100.38')
+    int_duration_from_int = ActiveSupport::Duration.build(1)
+    float_duration_from_float = ActiveSupport::Duration.build(99.5)
 
     assert float_duration_from_string.value.is_a?(Float)
     assert int_duration_from_string.value.is_a?(Integer)
+    assert float_duration_from_float.value.is_a?(Float)
+    assert int_duration_from_int.value.is_a?(Integer)
   end
 
   private
