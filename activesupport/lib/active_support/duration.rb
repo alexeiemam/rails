@@ -200,8 +200,7 @@ module ActiveSupport
           when value.is_a?(::Numeric)
             value
           else
-            value_as_processed = value.to_f
-            (value_as_processed % 1 == 0) ? value_as_processed.to_i : value_as_processed
+            (Rational(value).denominator == 1) ? Integer(value) : Float(value)
           end
         new(value_to_instantiate, parts)
       end
