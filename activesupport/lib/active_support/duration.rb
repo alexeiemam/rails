@@ -182,7 +182,6 @@ module ActiveSupport
       #
       def build(value)
         parts = {}
-
         remainder = value.to_f
 
         PARTS.each do |part|
@@ -195,14 +194,11 @@ module ActiveSupport
 
         parts[:seconds] = remainder
 
-        value_to_instantiate =
-          case
-          when value.is_a?(::Numeric)
-            value
-          else
-            (Rational(value).denominator == 1) ? Integer(value) : Float(value)
-          end
-        new(value_to_instantiate, parts)
+        unless value.is_a?(::Numeric)
+          value = (Rational(value).denominator == 1) ? Integer(value) : Float(value)
+        end
+
+        new(value, parts)
       end
 
       private
