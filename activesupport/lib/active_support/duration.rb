@@ -196,8 +196,8 @@ module ActiveSupport
         parts[:seconds] = remainder
 
         value_to_instantiate =
-          case value.class
-          when Integer
+          case
+          when value.is_a?(Integer)
             value
           else
             value_as_processed = value.to_f
