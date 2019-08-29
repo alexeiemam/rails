@@ -677,6 +677,22 @@ class DurationTest < ActiveSupport::TestCase
     assert_equal "can't build an ActiveSupport::Duration from a NilClass", error.message
   end
 
+  def test_parts_subtraction
+    one_hour_minus_one_minute_one_second = (ActiveSupport::Duration.build(Rational(3600)) - ActiveSupport::Duration.build(Rational(61)))
+    assert_equal ({ hours: 0, minutes: 58, seconds: 59.0 }), one_hour_minus_one_minute_one_second.parts
+  end
+
+  def test_parts_addition
+    one_hour_one_minute = (1..60).map {ActiveSupport::Duration.build(Rational(61))}.sum
+    assert_equal ({ minutes: 61, seconds: 0.0 }), one_hour_one_minute.parts
+  end
+
+  def test_parts_division
+    sixty_one_minutes_and_fourty_seconds = ActiveSupport::Duration.build(Rational(3700))
+    thirty_minutes_and_fifty_seconds = sixty_one_minutes_and_fourty_seconds / 2.0
+    assert_equal ({ hours: 0, minutes: 30, seconds: 50.0 }), thirty_minutes_and_fifty_seconds.parts
+  end
+
   private
     def eastern_time_zone
       if Gem.win_platform?
